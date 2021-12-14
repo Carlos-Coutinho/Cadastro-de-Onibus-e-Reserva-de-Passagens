@@ -18,6 +18,25 @@ typedef struct
     char destino[20];
 } cadastro_onibus;
 
+void menu()
+{
+    int menu_op;
+    switch (menu_op)
+    {
+    case 1:
+        cadastro_onibus_funcao();
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    case 4:
+        system("exit");
+        break;
+    default:
+        break;
+    }
+}
 void cadastro_onibus_funcao()
 {
     printf("\nDigite A Quantidade De ônibus:");
