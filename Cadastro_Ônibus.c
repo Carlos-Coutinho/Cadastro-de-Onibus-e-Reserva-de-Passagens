@@ -21,6 +21,12 @@ typedef struct
 void menu()
 {
     int menu_op;
+    while (menu_op > 4 || menu_op < 1)
+    {
+        printf("\n01 - Cadastro De Onibus\n02 - Cadastro De Pessoas\n03 - Visualização De Poltronas\nDigite Aqui:");
+        scanf("%d",&menu_op);
+    }
+    
     switch (menu_op)
     {
     case 1:
@@ -82,6 +88,6 @@ void cadastro_onibus_funcao()
 int main()
 {
     setlocale(LC_ALL, "Portuguese");
-    cadastro_onibus_funcao();
+    menu();
     return 0;
 }
