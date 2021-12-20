@@ -68,52 +68,63 @@ void menu()
 }
 int cadastro_onibus_funcao()
 {
-    for (n_onibus; n_onibus < total_onibus_vetor; n_onibus++)
+    if (n_onibus == total_onibus_vetor)
     {
-        char op = 'A';
-        printf("\n\tCADASTRO DE ÔNIBUS\n\n");
-        printf("__________________________________\n");
-        printf("\n Digite O Código Do %d° Ônibus: ", n_onibus + 1);
-        scanf("%d", &vetor_onibus[n_onibus].codigo_onibus);
-        vetor_onibus->p.coluna = 4;
-
-        while (vetor_onibus[n_onibus].tipo_onibus > 2 || vetor_onibus[n_onibus].tipo_onibus < 1)
-        {
-            printf("\n Digite Um Numero\n\n 1 - Micro-Ônibus\n 2 - Ônibus\n\n Tipo: ");
-            scanf("%d", &vetor_onibus[n_onibus].tipo_onibus);
-            switch (vetor_onibus[n_onibus].tipo_onibus)
-            {
-            case 1:
-                vetor_onibus[n_onibus].p.linha = 7;
-                break;
-            case 2:
-                vetor_onibus[n_onibus].p.linha = 10;
-                break;
-            }
-        }
-
-        fflush(stdin);
-        while ((strcasecmp(vetor_onibus[n_onibus].tipo_viagem, "Estadual") != 0) && (strcasecmp(vetor_onibus[n_onibus].tipo_viagem, "Municipal") != 0))
-        {
-            fflush(stdin);
-            printf("\n Digite O Tipo De Viagem Que O Ônibus Realiza (Estadual ou Municipal): ");
-            gets(vetor_onibus[n_onibus].tipo_viagem);
-        }
-        printf("\n Digite a cidade de destino do Ônibus (Caxias-MA): ");
-        gets(vetor_onibus[n_onibus].destino);
-
-        while (op != 'Y')
-        {
-            printf(" Deseja Continuar? (Y/N):");
-            scanf(" %c", &op);
-            if (op == 'N')
-            {
-                system("cls");
-                n_onibus++;
-                menu();
-            }
-        }
+        printf("\n\n\tLIMITE ALCANÇADO\n\n");
         system("cls");
+        system("pause");
+        main();
+    }
+    else
+    {
+
+        for (n_onibus; n_onibus < total_onibus_vetor; n_onibus++)
+        {
+            char op = 'A';
+            printf("\n\tCADASTRO DE ÔNIBUS\n\n");
+            printf("__________________________________\n");
+            printf("\n Digite O Código Do %d° Ônibus: ", n_onibus + 1);
+            scanf("%d", &vetor_onibus[n_onibus].codigo_onibus);
+            vetor_onibus->p.coluna = 4;
+
+            while (vetor_onibus[n_onibus].tipo_onibus > 2 || vetor_onibus[n_onibus].tipo_onibus < 1)
+            {
+                printf("\n Digite Um Numero\n\n 1 - Micro-Ônibus\n 2 - Ônibus\n\n Tipo: ");
+                scanf("%d", &vetor_onibus[n_onibus].tipo_onibus);
+                switch (vetor_onibus[n_onibus].tipo_onibus)
+                {
+                case 1:
+                    vetor_onibus[n_onibus].p.linha = 7;
+                    break;
+                case 2:
+                    vetor_onibus[n_onibus].p.linha = 10;
+                    break;
+                }
+            }
+
+            fflush(stdin);
+            while ((strcasecmp(vetor_onibus[n_onibus].tipo_viagem, "Estadual") != 0) && (strcasecmp(vetor_onibus[n_onibus].tipo_viagem, "Municipal") != 0))
+            {
+                fflush(stdin);
+                printf("\n Digite O Tipo De Viagem Que O Ônibus Realiza (Estadual ou Municipal): ");
+                gets(vetor_onibus[n_onibus].tipo_viagem);
+            }
+            printf("\n Digite a cidade de destino do Ônibus (Caxias-MA): ");
+            gets(vetor_onibus[n_onibus].destino);
+
+            while (op != 'Y')
+            {
+                printf(" Deseja Continuar? (Y/N):");
+                scanf(" %c", &op);
+                if (op == 'N')
+                {
+                    system("cls");
+                    n_onibus++;
+                    menu();
+                }
+            }
+            system("cls");
+        }
     }
 }
 
@@ -128,9 +139,10 @@ int cadastro_passageiros_funcao()
     }
     else
     {
-        int i;
+        int i, codigo_onibus_vetor[total_onibus_vetor];
         for (n_passageiros; n_passageiros < total_passageiros_vetor; n_passageiros++)
         {
+            int j = 0, count_codigos, codigo_onibus,verificador=1;
             vetor_passageiro[n_passageiros].codigo = n_passageiros + 1;
             char tipo_onibus[20] = "ABC", op = "A";
             fflush(stdin);
@@ -150,9 +162,26 @@ int cadastro_passageiros_funcao()
                 fflush(stdin);
                 if (strcasecmp(tipo_onibus, vetor_onibus[i].tipo_viagem) == 0)
                 {
+                    codigo_onibus_vetor[j] = vetor_onibus[i].codigo_onibus;
+                    j++;
                     printf("\n %d - Tipo: %s Destino: %s\n", vetor_onibus[i].codigo_onibus, vetor_onibus[i].tipo_viagem, vetor_onibus[i].destino);
                 }
             }
+
+            while (verificador!=0)
+            {
+                printf("\n Digite O Código Do Ônibus Desejado:");
+                scanf("%d",&vetor_passageiro[n_passageiros].codigo_onibus);
+                for (count_codigos = 0; count_codigos <= i; count_codigos++)
+                {
+                    if (vetor_passageiro[n_passageiros].codigo_onibus == codigo_onibus_vetor[count_codigos])
+                    {
+                        verificador=0;
+                    }
+                }
+            }
+            printf("%d",vetor_passageiro[n_passageiros].codigo_onibus);
+
             fflush(stdin);
             while (op != 'Y')
             {
@@ -188,12 +217,12 @@ int ocupacao_poltronas()
         {
             for (i = 0; i < 2; i++)
             {
-                printf("[ ] ");
+                printf("[ ]");
             }
             printf("\t");
             for (i = 3; i < 5; i++)
             {
-                printf("[ ] ");
+                printf("[ ]");
             }
             printf("\n");
         }
