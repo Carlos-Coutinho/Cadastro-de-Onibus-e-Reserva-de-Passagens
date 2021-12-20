@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <conio.h>
 
 #define total_onibus_vetor 50
 #define total_passageiros_vetor 500
@@ -23,6 +24,7 @@ typedef struct
     poltrona p;
     char tipo_viagem[10];
     char destino[20];
+    int vagas;
 } cadastro_onibus;
 
 typedef struct
@@ -31,7 +33,6 @@ typedef struct
     char nome[50];
     char endereco[100];
     int cpf;
-    poltrona p;
     int codigo_onibus;
 } cadastro_passageiros;
 
@@ -71,33 +72,51 @@ int cadastro_onibus_funcao()
     if (n_onibus == total_onibus_vetor)
     {
         printf("\n\n\tLIMITE ALCANÇADO\n\n");
-        system("cls");
         system("pause");
+        system("cls");
         main();
     }
     else
     {
-
         for (n_onibus; n_onibus < total_onibus_vetor; n_onibus++)
         {
+            int vetor_codigo_onibus[total_onibus_vetor], i, verificador = 0;
             char op = 'A';
             printf("\n\tCADASTRO DE ÔNIBUS\n\n");
             printf("__________________________________\n");
-            printf("\n Digite O Código Do %d° Ônibus: ", n_onibus + 1);
-            scanf("%d", &vetor_onibus[n_onibus].codigo_onibus);
-            vetor_onibus->p.coluna = 4;
+
+            do
+            {
+                printf("\n Digite O Código Do %d° Ônibus:", n_onibus + 1);
+                scanf("%d", &vetor_onibus[n_onibus].codigo_onibus);
+                for (i = n_onibus - 1; i >= 0; i--)
+                {
+                    if (vetor_onibus[n_onibus].codigo_onibus == vetor_onibus[i].codigo_onibus)
+                    {
+                        printf("\nCódigo Em Utilização!!\n");
+                        verificador = 1;
+                    }
+                    else
+                    {
+                        verificador = 0;
+                    }
+                }
+            } while (verificador == 1);
 
             while (vetor_onibus[n_onibus].tipo_onibus > 2 || vetor_onibus[n_onibus].tipo_onibus < 1)
             {
                 printf("\n Digite Um Numero\n\n 1 - Micro-Ônibus\n 2 - Ônibus\n\n Tipo: ");
                 scanf("%d", &vetor_onibus[n_onibus].tipo_onibus);
+                vetor_onibus[n_onibus].p.coluna = 4;
                 switch (vetor_onibus[n_onibus].tipo_onibus)
                 {
                 case 1:
                     vetor_onibus[n_onibus].p.linha = 7;
+                    vetor_onibus[n_onibus].vagas = 28;
                     break;
                 case 2:
                     vetor_onibus[n_onibus].p.linha = 10;
+                    vetor_onibus[n_onibus].vagas = 40;
                     break;
                 }
             }
@@ -139,48 +158,72 @@ int cadastro_passageiros_funcao()
     }
     else
     {
-        int i, codigo_onibus_vetor[total_onibus_vetor];
+        int i, codigo_onibus_vetor[total_onibus_vetor], codigo_onibus_vetor_indice[total_onibus_vetor];
         for (n_passageiros; n_passageiros < total_passageiros_vetor; n_passageiros++)
         {
-            int j = 0, count_codigos, codigo_onibus,verificador=1;
+            int j = 0, count_codigos, tipo_onibus = 0, verificador = 0;
             vetor_passageiro[n_passageiros].codigo = n_passageiros + 1;
-            char tipo_onibus[20] = "ABC", op = "A";
+            char op = "A";
             fflush(stdin);
             printf("\n Digite O Nome Do Passageiro: ");
             gets(vetor_passageiro[n_passageiros].nome);
             printf("\n Digite O Endereço Do Passageiro: ");
             gets(vetor_passageiro[n_passageiros].endereco);
             fflush(stdin);
-            while ((strcasecmp(tipo_onibus, "Estadual") != 0) && (strcasecmp(tipo_onibus, "Municipal") != 0))
+            while (verificador == 0)
             {
-                fflush(stdin);
-                printf("\n Digite O Tipo De Viagem Que O Ônibus Realiza (Estadual ou Municipal): ");
-                gets(tipo_onibus);
-            }
-            for (i = 0; i <= n_onibus; i++)
-            {
-                fflush(stdin);
-                if (strcasecmp(tipo_onibus, vetor_onibus[i].tipo_viagem) == 0)
+                char tipo_viagem[20] = "ABC";
+                while (tipo_onibus > 2 || tipo_onibus < 1)
                 {
-                    codigo_onibus_vetor[j] = vetor_onibus[i].codigo_onibus;
-                    j++;
-                    printf("\n %d - Tipo: %s Destino: %s\n", vetor_onibus[i].codigo_onibus, vetor_onibus[i].tipo_viagem, vetor_onibus[i].destino);
+                    printf("\n Defina O Tipo De Onibus Que Deseja Realizar\n\n 1 - Micro-Onibus\n 2 - Ônibus\n\n Digite Aqui:");
+                    scanf("%d", &tipo_onibus);
+                }
+                while ((strcasecmp(tipo_viagem, "Estadual") != 0) && (strcasecmp(tipo_viagem, "Municipal") != 0))
+                {
+                    fflush(stdin);
+                    printf("\n Digite O Tipo De Viagem Que Deseja Realizar (Estadual ou Municipal): ");
+                    gets(tipo_viagem);
+                }
+                for (i = 0; i <= n_onibus; i++)
+                {
+                    fflush(stdin);
+                    if (strcasecmp(tipo_viagem, vetor_onibus[i].tipo_viagem) == 0 && tipo_onibus == vetor_onibus[i].tipo_onibus)
+                    {
+                        if (vetor_onibus[i].vagas > 0)
+                        {
+                            verificador++;
+                            codigo_onibus_vetor_indice[j] = i;
+                            codigo_onibus_vetor[j] = vetor_onibus[i].codigo_onibus;
+                            j++;
+                            printf("\n %d - Tipo: %s - Destino: %s - Vagas: %d", vetor_onibus[i].codigo_onibus, vetor_onibus[i].tipo_viagem, vetor_onibus[i].destino, vetor_onibus[i].vagas);
+                        }
+                    }
+                }
+                if (verificador == 0)
+                {
+                    printf("\n Nenhuma Ônibus Listado Com Essas Caracteríticas. Por Favor, Recomeçar!\n");
+                    tipo_onibus = 0;
                 }
             }
-
-            while (verificador!=0)
+            verificador = 1;
+            while (verificador != 0)
             {
-                printf("\n Digite O Código Do Ônibus Desejado:");
-                scanf("%d",&vetor_passageiro[n_passageiros].codigo_onibus);
-                for (count_codigos = 0; count_codigos <= i; count_codigos++)
+                printf("\n\n Digite O Código Do Ônibus Desejado:");
+                scanf("%d", &vetor_passageiro[n_passageiros].codigo_onibus);
+                for (count_codigos = 0; count_codigos < j; count_codigos++)
                 {
                     if (vetor_passageiro[n_passageiros].codigo_onibus == codigo_onibus_vetor[count_codigos])
                     {
-                        verificador=0;
+                        verificador = 0;
+                        vetor_onibus[codigo_onibus_vetor_indice[count_codigos]].vagas--;
+                        printf("\n Ônibus %d Definido!\n", vetor_passageiro[n_passageiros].codigo_onibus);
+                    }
+                    else
+                    {
+                        printf("\n Código Inválido - Escolha Um Dos Códigos Listados!\n");
                     }
                 }
             }
-            printf("%d",vetor_passageiro[n_passageiros].codigo_onibus);
 
             fflush(stdin);
             while (op != 'Y')
@@ -201,7 +244,7 @@ int cadastro_passageiros_funcao()
 
 int ocupacao_poltronas()
 {
-    int menu_op, i;
+    int menu_op, i = 8;
     int matriz[4][2], j;
     while (menu_op > 3 || menu_op < 1)
     {
@@ -212,19 +255,27 @@ int ocupacao_poltronas()
     switch (menu_op)
     {
     case 1:
+
         printf("\n");
-        for (j = 0; j < 10; j++)
+        for (j = 1; j <= 40; j++)
         {
-            for (i = 0; i < 2; i++)
+            if (i > 0)
             {
-                printf("[ ]");
+                printf("[ O ]");
+                i--;
             }
-            printf("\t");
-            for (i = 3; i < 5; i++)
+            else
             {
-                printf("[ ]");
+                printf("[ L ]");
             }
-            printf("\n");
+            if (j % 4 == 0)
+            {
+                printf("\n");
+            }
+            else if (j % 2 == 0)
+            {
+                printf("\t");
+            }
         }
 
         printf("\n");
