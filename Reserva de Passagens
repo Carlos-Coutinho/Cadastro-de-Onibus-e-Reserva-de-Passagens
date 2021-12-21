@@ -1,0 +1,96 @@
+int cadastro_passageiros_funcao()
+{
+    if (n_onibus == 0)
+    {
+        printf("\n\n\tRESERVAS FORA DO AR!\n\n\n");
+        system("pause");
+        system("cls");
+        main(vetor_onibus, vetor_passageiro);
+    }
+    else
+    {
+        int i, codigo_onibus_vetor[total_onibus_vetor], codigo_onibus_vetor_indice[total_onibus_vetor];
+        for (n_passageiros; n_passageiros < total_passageiros_vetor; n_passageiros++)
+        {
+            int j = 0, count_codigos, tipo_onibus = 0, verificador = 0;
+            vetor_passageiro[n_passageiros].codigo = n_passageiros + 1;
+            char op = "A";
+            fflush(stdin);
+            printf("\n\tCADASTRO DE PASSAGEIROS\n\n");
+            printf("__________________________________\n");
+            printf("\n Digite O Nome Do Passageiro: ");
+            gets(vetor_passageiro[n_passageiros].nome);
+            printf("\n Digite O Endereço Do Passageiro: ");
+            gets(vetor_passageiro[n_passageiros].endereco);
+            fflush(stdin);
+            while (verificador == 0)
+            {
+                char tipo_viagem[20] = "ABC";
+                while (tipo_onibus > 2 || tipo_onibus < 1)
+                {
+                    printf("\n Defina O Tipo De Onibus Que Deseja Realizar\n\n 1 - Micro-Onibus\n 2 - Ônibus\n\n Digite Aqui: ");
+                    scanf("%d", &tipo_onibus);
+                }
+                while ((strcasecmp(tipo_viagem, "Estadual") != 0) && (strcasecmp(tipo_viagem, "Municipal") != 0))
+                {
+                    fflush(stdin);
+                    printf("\n Digite O Tipo De Viagem Que Deseja Realizar (Estadual ou Municipal): ");
+                    gets(tipo_viagem);
+                }
+                for (i = 0; i <= n_onibus; i++)
+                {
+                    fflush(stdin);
+                    if (strcasecmp(tipo_viagem, vetor_onibus[i].tipo_viagem) == 0 && tipo_onibus == vetor_onibus[i].tipo_onibus)
+                    {
+                        if (vetor_onibus[i].vagas > 0)
+                        {
+                            verificador++;
+                            codigo_onibus_vetor_indice[j] = i;
+                            codigo_onibus_vetor[j] = vetor_onibus[i].codigo_onibus;
+                            j++;
+                            printf("\n %d - Tipo: %s - Destino: %s - Vagas: %d", vetor_onibus[i].codigo_onibus, vetor_onibus[i].tipo_viagem, vetor_onibus[i].destino, vetor_onibus[i].vagas);
+                        }
+                    }
+                }
+                if (verificador == 0)
+                {
+                    printf("\n Nenhuma Ônibus Listado Com Essas Caracteríticas. Por Favor, Recomeçar!\n");
+                    tipo_onibus = 0;
+                }
+            }
+            verificador = 1;
+            while (verificador != 0)
+            {
+                printf("\n\n Digite O Código Do Ônibus Desejado: ");
+                scanf("%d", &vetor_passageiro[n_passageiros].codigo_onibus);
+                for (count_codigos = 0; count_codigos < j; count_codigos++)
+                {
+                    if (vetor_passageiro[n_passageiros].codigo_onibus == codigo_onibus_vetor[count_codigos])
+                    {
+                        verificador = 0;
+                        vetor_onibus[codigo_onibus_vetor_indice[count_codigos]].vagas--;
+                        printf("\n Ônibus %d Definido!\n", vetor_passageiro[n_passageiros].codigo_onibus);
+                    }
+                    else
+                    {
+                        printf("\n Código Inválido - Escolha Um Dos Códigos Listados!\n");
+                    }
+                }
+            }
+
+            fflush(stdin);
+            while (op != 'Y')
+            {
+                printf("\n Deseja Continuar? (Y/N): ");
+                scanf("%c", &op);
+                if (op == 'N')
+                {
+                    system("cls");
+                    n_passageiros++;
+                    menu();
+                }
+            }
+            system("cls");
+        }
+    }
+}
