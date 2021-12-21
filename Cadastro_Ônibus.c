@@ -6,6 +6,7 @@
 #include <conio.h>
 
 #define total_onibus_vetor 50
+
 #define total_passageiros_vetor 500
 
 int n_onibus = 0;
