@@ -47,7 +47,7 @@ void menu()
     {
         printf("\n\t---MENU---\n 01 - Cadastro De Onibus\n 02 - Reserva De Passagens\n 03 - Visualização De Poltronas\n 04 - Sair\n\n Digite Aqui: ");
         scanf("%d", &menu_op);
-        system("cls");
+        system("clear");
     }
 
     switch (menu_op)
@@ -73,7 +73,7 @@ int cadastro_onibus_funcao()
     {
         printf("\n\n\tLIMITE ALCANÇADO\n\n");
         system("pause");
-        system("cls");
+        system("clear");
         main();
     }
     else
@@ -137,12 +137,12 @@ int cadastro_onibus_funcao()
                 scanf(" %c", &op);
                 if (op == 'N')
                 {
-                    system("cls");
+                    system("clear");
                     n_onibus++;
                     menu();
                 }
             }
-            system("cls");
+            system("clear");
         }
     }
 }
@@ -153,7 +153,7 @@ int cadastro_passageiros_funcao()
     {
         printf("\n\n\tRESERVAS FORA DO AR!\n\n\n");
         system("pause");
-        system("cls");
+        system("clear");
         main(vetor_onibus, vetor_passageiro);
     }
     else
@@ -234,12 +234,12 @@ int cadastro_passageiros_funcao()
                 scanf("%c", &op);
                 if (op == 'N')
                 {
-                    system("cls");
+                    system("clear");
                     n_passageiros++;
                     menu();
                 }
             }
-            system("cls");
+            system("clear");
         }
     }
 }
@@ -277,7 +277,7 @@ int ocupacao_poltronas()
     {
         printf("\n\tOCUPAÇÃO DE POLTRONAS\n\n01 - Lista A Ocupação De Todos Os Veículos\n02 - Veículo Específico\n03 - Retornar Ao Menu\n\nDigite Aqui: ");
         scanf("%d", &menu_op);
-        system("cls");
+        system("clear");
     }
     switch (menu_op)
     {
@@ -286,7 +286,7 @@ int ocupacao_poltronas()
         {
             printf("\n\tNENHUM ÔNIBUS CADASTRADO\n\n");
             system("pause");
-            system("cls");
+            system("clear");
             menu();
         }
         else
@@ -309,7 +309,7 @@ int ocupacao_poltronas()
                 }
             }
             system("\n\npause");
-            system("cls");
+            system("clear");
             menu();
         }
         break;
@@ -318,7 +318,7 @@ int ocupacao_poltronas()
         {
             printf("\n\tNENHUM ÔNIBUS CADASTRADO\n\n");
             system("pause");
-            system("cls");
+            system("clear");
             menu();
         }
         else
@@ -377,11 +377,11 @@ int ocupacao_poltronas()
                     scanf("%c", &op);
                     if (op == 'N')
                     {
-                        system("cls");
+                        system("clear");
                         menu();
                     }
                 }
-                system("cls");
+                system("clear");
             }
         }
         break;
